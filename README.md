@@ -1,25 +1,27 @@
-# Flight Delay Prediction
+# Flight Delay Prediction API
 
-Predicting if a US flight will be delayed (>15 mins) using 2015 BTS data.
+Live API: https://mlflightdelaypredictionproject-production.up.railway.app/docs
 
-## Setup
+## What it does
+Predicts US flight delays (&gt;15 min) using 2015 DOT data with 72.5% accuracy on high-risk flights.
 
-```bash
-pip install -r requirements.txt
-```
+## Business Impact
+- **$168M potential savings** for a 150-pax fleet
+- **17.5% reduction** in delay-related operational costs
 
-## Data
+## Tech Stack
+- **ML:** XGBoost, scikit-learn, Optuna (hyperparameter tuning)
+- **API:** FastAPI, Pydantic
+- **Deployment:** Railway, GitHub auto-deploy
 
-Get it from Kaggle: https://www.kaggle.com/datasets/usdot/flight-delays
-Put `flights.csv`, `airports.csv`, `airlines.csv` in `data/raw/`.
+## Key Features
+- Time-based train/validation/test split (no leakage)
+- Historical delay rates computed on training data only
+- 13 engineered features including carrier, route, and seasonal risk
 
-## Run
-
-1. `notebooks/01_eda.ipynb` - explore the data, make some plots
-2. `notebooks/02_modeling.ipynb` - train models, compare, tune
-
-## Notes
-
-- Historical features computed on training data only (no leakage)
-- Time-based split (60/20/20)
-- Target: DEPARTURE_DELAY > 15, excluding cancelled/diverted flights
+## Endpoints
+| Endpoint | Description |
+|----------|-------------|
+| `POST /predict` | Single flight delay prediction |
+| `GET /health` | Model health check |
+| `GET /model-info` | Model metadata & performance |
